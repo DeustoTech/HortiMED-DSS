@@ -1,11 +1,12 @@
 clear
-% Cargamos los datos de clima exterior
+tic
+%% Cargamos los datos de clima exterior
 %
 ds = load('data/ds_EC','ds');
 ds = ds.ds;
 
-% Intante Inicial
-% tomamos como intante inicial de la simulación la fecha t0
+% Instante Inicial
+% tomamos como instante inicial de la simulación la fecha t0
 % determinada por el primer elemento de la tabla ds. Esta es la tabla de
 % clima exterior.
 % Podriamos tomar un valor inicial diferente variando el valor de t0 por
@@ -29,7 +30,7 @@ Tend = 2;
 %%
 
 t0_span = ds.DateTime(1):days(Tend):ds.DateTime(end);
-t0_span = t0_span(1:4);
+t0_span = t0_span(1:end);
 BuildBusFlow;
 
 best_benefit_span = [];
@@ -109,7 +110,6 @@ for j = 1:length(t0_span)
 
 end
 
-
 %%
 clf
 subplot(4,1,1)
@@ -125,7 +125,7 @@ plot(DT_span_total,Ti_total-273.15)
 xlim([DT_span_total(1) DT_span_total(end)])
 xline(t0_span)
 legend('T_{max}^{ven}','T_{start}^{ven}', ...
-       'T_{max}^{heater}','T_{start}^{heater}','T_e','T_i','FontSize',5)
+       'T_{max}^{heater}','T_{start}^{heater}','T_e','T_i','FontSize',10)
 
 subplot(4,1,2)
 
@@ -140,5 +140,7 @@ legend('Windows')
 subplot(4,1,4)
 
 plot(ds.DateTime,ds.radiation)
+legend('Irradiation')
 xlim([DT_span_total(1) DT_span_total(end)])
 
+toc
